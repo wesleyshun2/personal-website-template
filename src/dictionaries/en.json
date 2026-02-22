@@ -8,5 +8,21 @@
     "home": {
         "title": "Where Elegance Meets Professionalism",
         "subtitle": "Welcome to my personal digital space"
+    },
+    "footer": {
+        "rights": "All rights reserved",
+        "motto": "Crafting elegant and impactful digital experiences.",
+        "quickLinks": "Quick Links"
+    },
+    "portfolio": {
+        "title": "Selected Works",
+        "subtitle": "A showcase of my explorations and practices in design and development.",
+        "viewProject": "View Project"
+    },
+    "blog": {
+        "title": "Digital Notes",
+        "subtitle": "Sharing thoughts on technology, design, and life.",
+        "readMore": "Read More",
+        "publishedAt": "Published at"
     }
 }

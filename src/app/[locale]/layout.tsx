@@ -4,6 +4,7 @@ import '../globals.css';
 import { i18n, type Locale } from '@/i18n-config';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 import { getDictionary } from '@/get-dictionary';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
@@ -39,6 +40,7 @@ export default async function RootLayout({
         >
           <Navbar dict={dict} lang={typedLocale} />
           {children}
+          <Footer dict={dict} lang={typedLocale} />
         </ThemeProvider>
       </body>
     </html>

@@ -20,7 +20,7 @@ export default async function Home({
   return (
     <main className="min-h-screen">
       <HeroParallax title={dict.home.title} subtitle={dict.home.subtitle}>
-        <SocialLinks />
+        <SocialLinks className="mt-8" />
       </HeroParallax>
 
       <section id="about" className="container mx-auto px-6 py-24 min-h-screen flex flex-col items-center justify-center">
