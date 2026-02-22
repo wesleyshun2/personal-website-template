@@ -1,28 +1,38 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { i18n } from './i18n-config';
-import { match as matchLocale } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 
-function getLocale(request: NextRequest): string | undefined {
+function getLocale(request: NextRequest): string {
     // Negotiator expects plain object so we need to transform headers
     const negotiatorHeaders: Record<string, string> = {};
     request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
-    // @ts-ignore locales are readonly
-    const locales: string[] = i18n.locales;
+    // Use negotiator to get all preferred languages
+    const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
 
-    // Use negotiator and intl-localematcher to get best locale
-    let languages = new Negotiator({ headers: negotiatorHeaders }).languages(
-        locales
-    );
+    // 如果偵測不到特定語言 (例如只有 '*') 或者完全沒有 headers，預設為中文
+    if (!languages || languages.length === 0 || (languages.length === 1 && languages[0] === '*')) {
+        return i18n.defaultLocale;
+    }
 
-    const locale = matchLocale(languages, locales, i18n.defaultLocale);
+    // 依序檢查使用者的偏好語言
+    for (const lang of languages) {
+        if (lang === '*') continue;
 
-    return locale;
+        // 如果系統語言是中文 (zh 開頭)，則返回中文介面 (tw)
+        if (lang.toLowerCase().startsWith('zh')) {
+            return 'tw';
+        } else {
+            // 如果系統語言不是中文，則返回英文介面 (en)
+            return 'en';
+        }
+    }
+
+    return i18n.defaultLocale;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
     // `/_next/` and `/api/` are ignored by the watcher, but we need to ignore files in `public` manually.
