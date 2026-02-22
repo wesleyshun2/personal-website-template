@@ -1,0 +1,12 @@
+{
+    "navigation": {
+        "home": "Home",
+        "about": "About",
+        "portfolio": "Portfolio",
+        "blog": "Blog"
+    },
+    "home": {
+        "title": "Where Elegance Meets Professionalism",
+        "subtitle": "Welcome to my personal digital space"
+    }
+}

@@ -1,0 +1,33 @@
+
+> personal-website@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.7s
+  Running TypeScript ...
+Failed to compile.
+
+.next/types/validator.ts:58:31
+Type error: Type 'typeof import("C:/Users/Arco_asus/.gemini/antigravity/scratch/personal-website/src/app/[locale]/layout")' does not satisfy the constraint 'LayoutConfig<"/[locale]">'.
+  Types of property 'default' are incompatible.
+    Type '({ children, params, }: { children: ReactNode; params: Promise<{ locale: "tw" | "en"; }>; }) => Promise<Element>' is not assignable to type 'ComponentType<LayoutProps<"/[locale]">> | ((props: LayoutProps<"/[locale]">) => void | ReactNode | Promise<ReactNode> | Promise<...>)'.
+      Type '({ children, params, }: { children: ReactNode; params: Promise<{ locale: "tw" | "en"; }>; }) => Promise<Element>' is not assignable to type 'FunctionComponent<LayoutProps<"/[locale]">>'.
+        Types of parameters '__0' and 'props' are incompatible.
+          Type 'LayoutProps<"/[locale]">' is not assignable to type '{ children: ReactNode; params: Promise<{ locale: "tw" | "en"; }>; }'.
+            Types of property 'params' are incompatible.
+              Type 'Promise<{ locale: string; }>' is not assignable to type 'Promise<{ locale: "tw" | "en"; }>'.
+                Type '{ locale: string; }' is not assignable to type '{ locale: "tw" | "en"; }'.
+                  Types of property 'locale' are incompatible.
+                    Type 'string' is not assignable to type '"tw" | "en"'.
+
+[0m [90m 56 |[39m   type __IsExpected[33m<[39m[33mSpecific[39m [36mextends[39m [33mLayoutConfig[39m[33m<[39m[32m"/[locale]"[39m[33m>>[39m [33m=[39m [33mSpecific[39m
+ [90m 57 |[39m   [36mconst[39m handler [33m=[39m {} [36mas[39m [36mtypeof[39m [36mimport[39m([32m"../../src/app/[locale]/layout.js"[39m)
+[31m[1m>[22m[39m[90m 58 |[39m   type __Check [33m=[39m __IsExpected[33m<[39m[36mtypeof[39m handler[33m>[39m
+ [90m    |[39m                               [31m[1m^[22m[39m
+ [90m 59 |[39m   [90m// @ts-ignore[39m
+ [90m 60 |[39m   type __Unused [33m=[39m __Check
+ [90m 61 |[39m }[0m
+Next.js build worker exited with code: 1 and signal: null
