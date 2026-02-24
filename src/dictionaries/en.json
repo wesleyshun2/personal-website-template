@@ -17,12 +17,18 @@
     "portfolio": {
         "title": "Selected Works",
         "subtitle": "A showcase of my explorations and practices in design and development.",
-        "viewProject": "View Project"
+        "viewProject": "View Project",
+        "all": "All",
+        "filterBy": "Filter by Tag",
+        "noResults": "No projects found matching this tag."
     },
     "blog": {
         "title": "Digital Notes",
         "subtitle": "Sharing thoughts on technology, design, and life.",
         "readMore": "Read More",
-        "publishedAt": "Published at"
+        "publishedAt": "Published at",
+        "all": "All",
+        "filterBy": "Filter by Category",
+        "noResults": "No posts found matching this category."
     }
 }
