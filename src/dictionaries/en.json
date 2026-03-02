@@ -3,7 +3,8 @@
         "home": "Home",
         "about": "About",
         "portfolio": "Portfolio",
-        "blog": "Blog"
+        "blog": "Blog",
+        "resume": "Resume"
     },
     "home": {
         "title": "Where Elegance Meets Professionalism",
@@ -30,5 +31,8 @@
         "all": "All",
         "filterBy": "Filter by Category",
         "noResults": "No posts found matching this category."
+    },
+    "resume": {
+        "print": "Print / Download PDF"
     }
 }

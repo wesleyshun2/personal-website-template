@@ -30,7 +30,7 @@ export function Navbar({
     };
 
     return (
-        <header className="fixed top-0 w-full z-50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-300">
+        <header className="fixed top-0 w-full z-50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-300 print:hidden">
             <div className="container mx-auto px-6 h-16 flex items-center justify-between">
                 <Link href={`/${lang}`} className="text-xl font-medium tracking-wide">
                     MySite
@@ -45,6 +45,9 @@ export function Navbar({
                     </Link>
                     <Link href={`/${lang}/blog`} className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors">
                         {dict.navigation.blog}
+                    </Link>
+                    <Link href={`/${lang}/resume`} className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors">
+                        {dict.navigation.resume}
                     </Link>
                 </nav>
 

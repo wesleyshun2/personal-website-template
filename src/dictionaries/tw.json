@@ -3,7 +3,8 @@
     "home": "首頁",
     "about": "關於我",
     "portfolio": "作品集",
-    "blog": "部落格"
+    "blog": "部落格",
+    "resume": "履歷"
   },
   "home": {
     "title": "優雅、專業與創意的結合",
@@ -28,5 +29,8 @@
     "publishedAt": "發布於",
     "all": "全部文章",
     "noResults": "找不到符合此分類的文章。"
+  },
+  "resume": {
+    "print": "列印 / 下載 PDF"
   }
 }
