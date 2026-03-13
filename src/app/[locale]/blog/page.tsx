@@ -2,6 +2,8 @@ import { getDictionary } from '@/get-dictionary';
 import { Locale } from '@/i18n-config';
 import { getAllContentWithMetadata } from '@/lib/mdx';
 import { BlogList } from '@/components/BlogList';
+import { MicroBlog } from '@/components/MicroBlog';
+import microBlogPosts from '@/data/micro-blog.json';
 
 export default async function BlogPage({
     params,
@@ -35,7 +37,14 @@ export default async function BlogPage({
                     </p>
                 </header>
 
-                <BlogList posts={posts} dict={dict} locale={typedLocale} />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                    <div className="lg:col-span-8">
+                        <BlogList posts={posts} dict={dict} locale={typedLocale} />
+                    </div>
+                    <div className="lg:col-span-4">
+                        <MicroBlog posts={microBlogPosts} title={dict.blog.microBlogTitle} />
+                    </div>
+                </div>
             </div>
         </main>
     );

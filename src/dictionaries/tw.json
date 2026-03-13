@@ -28,7 +28,8 @@
     "readMore": "閱讀更多",
     "publishedAt": "發布於",
     "all": "全部文章",
-    "noResults": "找不到符合此分類的文章。"
+    "noResults": "找不到符合此分類的文章。",
+    "microBlogTitle": "瞬間隨想"
   },
   "resume": {
     "print": "列印 / 下載 PDF"

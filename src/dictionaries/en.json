@@ -30,7 +30,8 @@
         "publishedAt": "Published at",
         "all": "All",
         "filterBy": "Filter by Category",
-        "noResults": "No posts found matching this category."
+        "noResults": "No posts found matching this category.",
+        "microBlogTitle": "Micro-Blog Feed"
     },
     "resume": {
         "print": "Print / Download PDF"
