@@ -2,8 +2,10 @@ import { getDictionary } from '@/get-dictionary';
 import { Locale } from '@/i18n-config';
 import { HeroParallax } from '@/components/HeroParallax';
 import { SocialLinks } from '@/components/SocialLinks';
-import { getMarkdownContent } from '@/lib/mdx';
-import ReactMarkdown from 'react-markdown';
+import { getAllContentWithMetadata } from '@/lib/mdx';
+import { BlogList } from '@/components/BlogList';
+import { MicroBlog } from '@/components/MicroBlog';
+import microBlogPosts from '@/data/micro-blog.json';
 
 export default async function Home({
   params,
@@ -14,8 +16,16 @@ export default async function Home({
   const typedLocale = locale as Locale;
   const dict = await getDictionary(typedLocale);
 
-  // Fetch About markdown content
-  const { content } = getMarkdownContent(typedLocale, 'about');
+  // Fetch Blog posts
+  const postsData = getAllContentWithMetadata(typedLocale, 'blog');
+  const posts = postsData.map(post => ({
+    title: post.metadata.title || 'Untitled',
+    excerpt: post.metadata.excerpt || '',
+    date: post.metadata.date || '',
+    category: post.metadata.category || 'General',
+    image: post.metadata.image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800',
+    slug: post.slug,
+  })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <main className="min-h-screen">
@@ -23,11 +33,13 @@ export default async function Home({
         <SocialLinks className="mt-8" />
       </HeroParallax>
 
-      <section id="about" className="container mx-auto px-6 py-24 min-h-screen flex flex-col items-center justify-center">
-        <div className="max-w-3xl w-full">
-          <h2 className="text-3xl font-light mb-12 text-center tracking-wide">{dict.navigation.about}</h2>
-          <div className="prose prose-zinc dark:prose-invert prose-lg max-w-none text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
-            <ReactMarkdown>{content || ''}</ReactMarkdown>
+      <section className="container mx-auto px-6 py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-8">
+            <BlogList posts={posts} dict={dict} locale={typedLocale} />
+          </div>
+          <div className="lg:col-span-4">
+            <MicroBlog posts={microBlogPosts} title={dict.blog.microBlogTitle} />
           </div>
         </div>
       </section>
