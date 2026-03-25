@@ -83,7 +83,7 @@ export function BlogList({
 
             {/* List */}
             {posts.length > 0 ? (
-                <div className="space-y-20">
+                <div className="space-y-12">
                     <div className="space-y-20">
                         {posts.map((post, index) => (
                             <article key={post.slug || index} className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
@@ -135,44 +135,61 @@ export function BlogList({
 
                     {/* Pagination */}
                     {showPagination && currentPage && totalPages && totalPages > 1 && (
-                        <div className="flex items-center justify-between pt-12 border-t border-zinc-100 dark:border-zinc-900">
-                            <div className="text-sm text-zinc-500 font-light">
-                                {dict.blog.page.replace('%d', currentPage.toString())} / {totalPages}
-                            </div>
-                            <div className="flex space-x-4">
+                        <div className="flex justify-center pt-4 border-t border-zinc-100 dark:border-zinc-900">
+                            <div className="flex items-center space-x-2">
+                                {/* Previous Button */}
                                 {currentPage > 1 ? (
                                     <Link
                                         href={getHref('page', (currentPage - 1).toString())}
-                                        className="inline-flex items-center px-6 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors"
+                                        className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-50 hover:border-zinc-950 dark:hover:border-zinc-50 transition-colors group"
+                                        aria-label={dict.blog.previous}
                                     >
-                                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                                         </svg>
-                                        {dict.blog.previous}
                                     </Link>
                                 ) : (
-                                    <span className="inline-flex items-center px-6 py-2 rounded-full border border-zinc-100 dark:border-zinc-900 text-sm font-medium text-zinc-300 dark:text-zinc-700 cursor-not-allowed">
-                                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <span className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-zinc-100 dark:border-zinc-900 text-zinc-300 dark:text-zinc-700 cursor-not-allowed">
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                                         </svg>
-                                        {dict.blog.previous}
                                     </span>
                                 )}
 
+                                {/* Page Numbers */}
+                                <div className="flex items-center space-x-2">
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                                        const isCurrent = pageNum === currentPage;
+                                        return (
+                                            <Link
+                                                key={pageNum}
+                                                href={getHref('page', pageNum.toString())}
+                                                className={`w-10 h-10 inline-flex items-center justify-center rounded-full text-sm font-medium transition-all border ${
+                                                    isCurrent
+                                                        ? "bg-zinc-950 text-zinc-50 border-zinc-950 dark:bg-zinc-50 dark:text-zinc-950 dark:border-zinc-50"
+                                                        : "bg-transparent text-zinc-500 border-zinc-200 dark:border-zinc-800 hover:text-zinc-950 dark:hover:text-zinc-50 hover:border-zinc-950 dark:hover:border-zinc-50"
+                                                }`}
+                                            >
+                                                {pageNum}
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Next Button */}
                                 {currentPage < totalPages ? (
                                     <Link
                                         href={getHref('page', (currentPage + 1).toString())}
-                                        className="inline-flex items-center px-6 py-2 rounded-full border border-zinc-950 dark:border-zinc-50 bg-zinc-950 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-950 text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
+                                        className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-50 hover:border-zinc-950 dark:hover:border-zinc-50 transition-colors group"
+                                        aria-label={dict.blog.next}
                                     >
-                                        {dict.blog.next}
-                                        <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                                         </svg>
                                     </Link>
                                 ) : (
-                                    <span className="inline-flex items-center px-6 py-2 rounded-full border border-zinc-100 dark:border-zinc-900 text-sm font-medium text-zinc-300 dark:text-zinc-700 cursor-not-allowed">
-                                        {dict.blog.next}
-                                        <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <span className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-zinc-100 dark:border-zinc-900 text-zinc-300 dark:text-zinc-700 cursor-not-allowed">
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                                         </svg>
                                     </span>

@@ -51,7 +51,7 @@ export default async function Home({
         <SocialLinks className="mt-8" />
       </HeroParallax>
 
-      <section id="blog-section" className="container mx-auto px-6 py-24 scroll-mt-24">
+      <section id="blog-section" className="container mx-auto px-6 pt-24 pb-12 scroll-mt-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-8">
             <BlogList 
@@ -68,7 +68,11 @@ export default async function Home({
             />
           </div>
           <div className="lg:col-span-4">
-            <MicroBlog posts={microBlogPosts} title={dict.blog.microBlogTitle} />
+            <MicroBlog 
+              posts={microBlogPosts} 
+              title={dict.blog.microBlogTitle} 
+              sourceUrl="https://x.com/your-profile" 
+            />
           </div>
         </div>
       </section>
