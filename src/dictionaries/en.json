@@ -31,7 +31,10 @@
         "all": "All",
         "filterBy": "Filter by Category",
         "noResults": "No posts found matching this category.",
-        "microBlogTitle": "Micro-Blog Feed"
+        "microBlogTitle": "Micro-Blog Feed",
+        "next": "Next",
+        "previous": "Previous",
+        "page": "Page"
     },
     "resume": {
         "print": "Print / Download PDF"

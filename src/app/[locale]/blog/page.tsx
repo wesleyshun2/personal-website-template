@@ -7,16 +7,23 @@ import microBlogPosts from '@/data/micro-blog.json';
 
 export default async function BlogPage({
     params,
+    searchParams,
 }: {
     params: Promise<{ locale: string }>;
+    searchParams: Promise<{ page?: string; category?: string }>;
 }) {
     const { locale } = await params;
+    const { page, category } = await searchParams;
     const typedLocale = locale as Locale;
     const dict = await getDictionary(typedLocale);
 
-    const postsData = getAllContentWithMetadata(typedLocale, 'blog');
+    const currentPage = Math.max(1, parseInt(page || '1', 10));
+    const currentCategory = category || dict.blog.all;
+    const postsPerPage = 4;
 
-    const posts = postsData.map(post => ({
+    const allPostsData = getAllContentWithMetadata(typedLocale, 'blog');
+
+    const allPosts = allPostsData.map(post => ({
         title: post.metadata.title || 'Untitled',
         excerpt: post.metadata.excerpt || '',
         date: post.metadata.date || '',
@@ -24,6 +31,16 @@ export default async function BlogPage({
         image: post.metadata.image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800',
         slug: post.slug,
     })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const filteredPosts = currentCategory === dict.blog.all
+        ? allPosts
+        : allPosts.filter(p => p.category === currentCategory);
+
+    const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+    const paginatedPosts = filteredPosts.slice(
+        (currentPage - 1) * postsPerPage,
+        currentPage * postsPerPage
+    );
 
     return (
         <main className="min-h-screen pt-32 pb-24">
@@ -39,7 +56,15 @@ export default async function BlogPage({
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
                     <div className="lg:col-span-8">
-                        <BlogList posts={posts} dict={dict} locale={typedLocale} />
+                        <BlogList 
+                            posts={paginatedPosts} 
+                            dict={dict} 
+                            locale={typedLocale}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            currentCategory={currentCategory}
+                            allCategories={Array.from(new Set(allPosts.map(p => p.category)))}
+                        />
                     </div>
                     <div className="lg:col-span-4">
                         <MicroBlog posts={microBlogPosts} title={dict.blog.microBlogTitle} />
