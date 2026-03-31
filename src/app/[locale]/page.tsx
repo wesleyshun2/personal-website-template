@@ -6,7 +6,7 @@ import { SocialLinks } from '@/components/SocialLinks';
 import { getAllContentWithMetadata } from '@/lib/mdx';
 import { BlogList } from '@/components/BlogList';
 import { MicroBlog } from '@/components/MicroBlog';
-import microBlogPosts from '@/data/micro-blog.json';
+import { fetchExternalSourceData } from '@/lib/tweetFetcher';
 
 export default async function Home({
   params,
@@ -45,6 +45,25 @@ export default async function Home({
       currentPage * postsPerPage
   );
 
+  const rawMicroBlogData = getAllContentWithMetadata(typedLocale, 'tweets');
+  const sourceNode = rawMicroBlogData.find(post => post.slug === 'source');
+  const sourceUrl = sourceNode?.metadata?.sourceUrl || '';
+  console.log(`[Locale: ${typedLocale}] Evaluated Source URL: "${sourceUrl}"`);
+  
+  const externalSourceData = sourceUrl ? await fetchExternalSourceData(sourceUrl) : null;
+  console.log(`[Locale: ${typedLocale}] External Source Data:`, externalSourceData);
+  
+  const microBlogPosts = rawMicroBlogData
+      .filter(post => post.slug !== 'source' && post.content.trim() !== '.')
+      .map(post => ({
+          id: post.slug,
+          content: post.content ? post.content.trim() : '',
+          date: post.metadata.date || '',
+          image: post.metadata.image,
+          youtube: post.metadata.youtube,
+          linkPreview: post.metadata.linkPreview,
+      })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   return (
     <main className="min-h-screen">
       <HeroParallax title={dict.home.title} subtitle={dict.home.subtitle}>
@@ -67,11 +86,12 @@ export default async function Home({
               scrollTarget="blog-section"
             />
           </div>
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 flex flex-col">
             <MicroBlog 
               posts={microBlogPosts} 
               title={dict.blog.microBlogTitle} 
-              sourceUrl="https://x.com/your-profile" 
+              sourceUrl={sourceUrl}
+              externalSourceData={externalSourceData}
             />
           </div>
         </div>

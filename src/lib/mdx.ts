@@ -30,10 +30,11 @@ export function getAllContentWithMetadata(locale: Locale, category: string) {
             const slug = fileName.replace(/\.md$/, '');
             const fullPath = path.join(dirPath, fileName);
             const fileContents = fs.readFileSync(fullPath, 'utf8');
-            const { data } = matter(fileContents);
+            const { data, content } = matter(fileContents);
             return {
                 slug,
                 metadata: data,
+                content: content,
             };
         });
 }

@@ -3,7 +3,7 @@ import { Locale } from '@/i18n-config';
 import { getAllContentWithMetadata } from '@/lib/mdx';
 import { BlogList } from '@/components/BlogList';
 import { MicroBlog } from '@/components/MicroBlog';
-import microBlogPosts from '@/data/micro-blog.json';
+import { fetchExternalSourceData } from '@/lib/tweetFetcher';
 
 export default async function BlogPage({
     params,
@@ -42,6 +42,22 @@ export default async function BlogPage({
         currentPage * postsPerPage
     );
 
+    const rawMicroBlogData = getAllContentWithMetadata(typedLocale, 'tweets');
+    const sourceNode = rawMicroBlogData.find(post => post.slug === 'source');
+    const sourceUrl = sourceNode?.metadata?.sourceUrl || '';
+    const externalSourceData = sourceUrl ? await fetchExternalSourceData(sourceUrl) : null;
+
+    const microBlogPosts = rawMicroBlogData
+        .filter(post => post.slug !== 'source' && post.content.trim() !== '.')
+        .map(post => ({
+            id: post.slug,
+            content: post.content ? post.content.trim() : '',
+            date: post.metadata.date || '',
+            image: post.metadata.image,
+            youtube: post.metadata.youtube,
+            linkPreview: post.metadata.linkPreview,
+        })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
     return (
         <main className="min-h-screen pt-32 pb-24">
             <div className="container mx-auto px-6">
@@ -66,8 +82,13 @@ export default async function BlogPage({
                             allCategories={Array.from(new Set(allPosts.map(p => p.category)))}
                         />
                     </div>
-                    <div className="lg:col-span-4">
-                        <MicroBlog posts={microBlogPosts} title={dict.blog.microBlogTitle} />
+                    <div className="lg:col-span-4 flex flex-col">
+                        <MicroBlog 
+                            posts={microBlogPosts} 
+                            title={dict.blog.microBlogTitle} 
+                            sourceUrl={sourceUrl} 
+                            externalSourceData={externalSourceData} 
+                        />
                     </div>
                 </div>
             </div>

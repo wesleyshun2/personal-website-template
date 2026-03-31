@@ -158,7 +158,47 @@ export function BlogList({
 
                                 {/* Page Numbers */}
                                 <div className="flex items-center space-x-2">
-                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                                    {((): (number | string)[] => {
+                                        if (totalPages <= 7) {
+                                            return Array.from({ length: totalPages }, (_, i) => i + 1);
+                                        }
+
+                                        const pages: (number | string)[] = [];
+                                        const leftLimit = 2;
+                                        const rightLimit = totalPages - 1;
+
+                                        pages.push(1);
+
+                                        if (currentPage > 3) {
+                                            pages.push('...');
+                                        }
+
+                                        // Show 1 page before and after current page
+                                        const start = Math.max(leftLimit, currentPage - 1);
+                                        const end = Math.min(rightLimit, currentPage + 1);
+
+                                        for (let i = start; i <= end; i++) {
+                                            pages.push(i);
+                                        }
+
+                                        if (currentPage < totalPages - 2) {
+                                            pages.push('...');
+                                        }
+
+                                        pages.push(totalPages);
+                                        return pages;
+                                    })().map((pageNum, idx) => {
+                                        if (pageNum === '...') {
+                                            return (
+                                                <span 
+                                                    key={`ellipsis-${idx}`} 
+                                                    className="w-10 h-10 inline-flex items-center justify-center text-zinc-400"
+                                                >
+                                                    &hellip;
+                                                </span>
+                                            );
+                                        }
+
                                         const isCurrent = pageNum === currentPage;
                                         return (
                                             <Link
