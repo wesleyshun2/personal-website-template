@@ -12,17 +12,17 @@ export function SocialLinks({ className = "" }: { className?: string }) {
     ];
 
     return (
-        <div className={`flex items-center gap-6 ${className}`}>
+        <div className={`flex items-center gap-8 ${className}`}>
             {socials.map((s) => (
                 <a
                     key={s.name}
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors duration-300"
+                    className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50 transition-all duration-300 transform hover:scale-110"
                     aria-label={s.name}
                 >
-                    <s.icon size={20} />
+                    <s.icon size={22} />
                 </a>
             ))}
         </div>

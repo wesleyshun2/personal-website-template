@@ -7,6 +7,7 @@ import { getAllContentWithMetadata } from '@/lib/mdx';
 import { BlogList } from '@/components/BlogList';
 import { Musings } from '@/components/Musings';
 import { fetchExternalSourceData } from '@/lib/tweetFetcher';
+import { siteConfig } from '@/config/site';
 
 export default async function Home({
   params,
@@ -46,8 +47,8 @@ export default async function Home({
   );
 
   const rawMusingsData = getAllContentWithMetadata(typedLocale, 'musings');
-  const sourceNode = rawMusingsData.find(post => post.slug === 'source');
-  const sourceUrl = sourceNode?.metadata?.sourceUrl || '';
+  // Now using siteConfig for sourceUrl instead of fetching from MDX metadata
+  const sourceUrl = siteConfig.musings.sources[typedLocale as keyof typeof siteConfig.musings.sources] || siteConfig.musings.sources.en;
 
   const musingsPosts = rawMusingsData
       .filter(post => post.slug !== 'source' && post.content.trim() !== '.')
