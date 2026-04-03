@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync-musings": "node scripts/sync-musings.mjs"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.8.1",

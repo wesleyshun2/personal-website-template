@@ -5,7 +5,7 @@ import { HeroParallax } from '@/components/HeroParallax';
 import { SocialLinks } from '@/components/SocialLinks';
 import { getAllContentWithMetadata } from '@/lib/mdx';
 import { BlogList } from '@/components/BlogList';
-import { MicroBlog } from '@/components/MicroBlog';
+import { Musings } from '@/components/Musings';
 import { fetchExternalSourceData } from '@/lib/tweetFetcher';
 
 export default async function Home({
@@ -45,15 +45,11 @@ export default async function Home({
       currentPage * postsPerPage
   );
 
-  const rawMicroBlogData = getAllContentWithMetadata(typedLocale, 'tweets');
-  const sourceNode = rawMicroBlogData.find(post => post.slug === 'source');
+  const rawMusingsData = getAllContentWithMetadata(typedLocale, 'musings');
+  const sourceNode = rawMusingsData.find(post => post.slug === 'source');
   const sourceUrl = sourceNode?.metadata?.sourceUrl || '';
-  console.log(`[Locale: ${typedLocale}] Evaluated Source URL: "${sourceUrl}"`);
-  
-  const externalSourceData = sourceUrl ? await fetchExternalSourceData(sourceUrl) : null;
-  console.log(`[Locale: ${typedLocale}] External Source Data:`, externalSourceData);
-  
-  const microBlogPosts = rawMicroBlogData
+
+  const musingsPosts = rawMusingsData
       .filter(post => post.slug !== 'source' && post.content.trim() !== '.')
       .map(post => ({
           id: post.slug,
@@ -87,11 +83,10 @@ export default async function Home({
             />
           </div>
           <div className="lg:col-span-4 flex flex-col">
-            <MicroBlog 
-              posts={microBlogPosts} 
-              title={dict.blog.microBlogTitle} 
+            <Musings 
+              posts={musingsPosts} 
+              title={dict.blog.musingsTitle} 
               sourceUrl={sourceUrl}
-              externalSourceData={externalSourceData}
             />
           </div>
         </div>

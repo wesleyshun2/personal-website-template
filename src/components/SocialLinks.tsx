@@ -1,12 +1,13 @@
 import { Mail } from 'lucide-react';
-import { SiX, SiDiscord, SiLinkedin, SiTelegram } from 'react-icons/si';
+import { SiBluesky, SiX, SiDiscord, SiLinkedin, SiTelegram } from 'react-icons/si';
 
 export function SocialLinks({ className = "" }: { className?: string }) {
     const socials = [
-        { name: 'X (Twitter)', icon: SiX, url: 'https://twitter.com/_' },
         { name: 'LinkedIn', icon: SiLinkedin, url: 'https://linkedin.com/' },
-        { name: 'Discord', icon: SiDiscord, url: 'https://discord.com/' },
+        { name: 'Bluesky', icon: SiBluesky, url: 'https://bsky.app/profile/coddybarks.bsky.social' },
+        { name: 'X', icon: SiX, url: 'https://x.com/' },
         { name: 'Telegram', icon: SiTelegram, url: 'https://t.me/' },
+        { name: 'Discord', icon: SiDiscord, url: 'https://discord.com/' },
         { name: 'Email', icon: Mail, url: 'mailto:hello@example.com' },
     ];
 

@@ -2,7 +2,7 @@ import { getDictionary } from '@/get-dictionary';
 import { Locale } from '@/i18n-config';
 import { getAllContentWithMetadata } from '@/lib/mdx';
 import { BlogList } from '@/components/BlogList';
-import { MicroBlog } from '@/components/MicroBlog';
+import { Musings } from '@/components/Musings';
 import { fetchExternalSourceData } from '@/lib/tweetFetcher';
 
 export default async function BlogPage({
@@ -42,12 +42,12 @@ export default async function BlogPage({
         currentPage * postsPerPage
     );
 
-    const rawMicroBlogData = getAllContentWithMetadata(typedLocale, 'tweets');
-    const sourceNode = rawMicroBlogData.find(post => post.slug === 'source');
+    const rawMusingsData = getAllContentWithMetadata(typedLocale, 'musings');
+    const sourceNode = rawMusingsData.find(post => post.slug === 'source');
     const sourceUrl = sourceNode?.metadata?.sourceUrl || '';
     const externalSourceData = sourceUrl ? await fetchExternalSourceData(sourceUrl) : null;
 
-    const microBlogPosts = rawMicroBlogData
+    const musingsPosts = rawMusingsData
         .filter(post => post.slug !== 'source' && post.content.trim() !== '.')
         .map(post => ({
             id: post.slug,
@@ -83,9 +83,9 @@ export default async function BlogPage({
                         />
                     </div>
                     <div className="lg:col-span-4 flex flex-col">
-                        <MicroBlog 
-                            posts={microBlogPosts} 
-                            title={dict.blog.microBlogTitle} 
+                        <Musings 
+                            posts={musingsPosts} 
+                            title={dict.blog.musingsTitle} 
                             sourceUrl={sourceUrl} 
                             externalSourceData={externalSourceData} 
                         />
