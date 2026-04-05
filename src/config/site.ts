@@ -10,7 +10,7 @@ export const siteConfig = {
   musings: {
     sources: {
       tw: 'https://bsky.app/profile/arcoshina.bsky.social',
-      en: 'https://bsky.app/profile/coddybarks.bsky.social',
+      en: 'https://bsky.app/profile/arcoshina.bsky.social',
     }
   }
 };
