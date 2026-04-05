@@ -42,18 +42,21 @@ async function syncLocale(locale) {
 
     console.log(`\n🌐 [Locale: ${locale}] Processing...`);
 
-    // 1. Get Source
-    const configPath = path.join(CONTENT_ROOT, locale, 'musings-config.md');
-    if (!fs.existsSync(configPath)) {
-        console.warn(`⚠️  No musings-config.md found for ${locale}. Skipping.`);
-        return;
+    // 1. Get Source from src/config/site.ts
+    const siteConfigPath = path.join(__dirname, '../src/config/site.ts');
+    let sourceUrl = null;
+    if (fs.existsSync(siteConfigPath)) {
+        const siteConfigContent = fs.readFileSync(siteConfigPath, 'utf8');
+        // Match the URL for the specific locale, e.g. tw: 'https://...'
+        const regex = new RegExp(`${locale}:\\s*['"]([^'"]+)['"]`);
+        const match = siteConfigContent.match(regex);
+        if (match) {
+            sourceUrl = match[1];
+        }
     }
-    const sourceContent = fs.readFileSync(configPath, 'utf8');
-    const sourceMeta = parseFrontmatter(sourceContent);
-    const sourceUrl = sourceMeta.sourceUrl;
 
     if (!sourceUrl) {
-        console.warn(`⚠️  No sourceUrl defined in ${locale}/source.md. Skipping.`);
+        console.warn(`⚠️  No sourceUrl defined in src/config/site.ts for locale '${locale}'. Skipping.`);
         return;
     }
 
