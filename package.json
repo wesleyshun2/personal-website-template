@@ -1,6 +1,8 @@
 {
   "name": "personal-website",
   "version": "0.1.0",
+  "author": "arcoshina",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",

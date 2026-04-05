@@ -13,9 +13,12 @@ export function Footer({ dict }: { dict: any; lang: string }) {
                 </div>
 
                 {/* Copyright Section */}
-                <div className="flex flex-col items-center text-center">
+                <div className="flex flex-col items-center text-center gap-2">
                     <p className="text-sm text-zinc-500 dark:text-zinc-400">
                         © {currentYear} MySite. {dict.footer.rights}
+                    </p>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                        Template by <a href="https://github.com/wesleyshun2/personal-website-template" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-800 dark:hover:text-zinc-200 underline underline-offset-2">arcoshina</a>
                     </p>
                 </div>
             </div>
