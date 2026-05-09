@@ -1,9 +1,7 @@
 ---
-name: "王大明 (Arco Wang)"
-title: "資深前端工程師 / UI 設計師"
-email: "arco.wang@example.com"
-github: "github.com/arcowang"
-linkedin: "linkedin.com/in/arcowang"
+name: "王大明"
+title: "資深前端工程師"
+email: "[EMAIL_ADDRESS]"
 ---
 
 ## 關於我

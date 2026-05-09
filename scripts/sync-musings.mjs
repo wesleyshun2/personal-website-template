@@ -21,6 +21,22 @@ function parseFrontmatter(content) {
     });
     return data;
 }
+ 
+// Helper to format date to YYYY-MM-DD HH:mm (Asia/Taipei)
+function formatDate(isoString) {
+    const d = new Date(isoString);
+    // 取得台灣時間 (UTC+8)
+    const twDate = new Date(d.getTime() + (8 * 60 * 60 * 1000));
+    const pad = (n) => String(n).padStart(2, '0');
+    
+    const year = twDate.getUTCFullYear();
+    const month = pad(twDate.getUTCMonth() + 1);
+    const day = pad(twDate.getUTCDate());
+    const hours = pad(twDate.getUTCHours());
+    const minutes = pad(twDate.getUTCMinutes());
+    
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
 
 // Handler for BlueSky
 async function fetchBlueSky(handle, latestDate) {
@@ -38,7 +54,10 @@ async function fetchBlueSky(handle, latestDate) {
 
 async function syncLocale(locale) {
     const localePath = path.join(CONTENT_ROOT, locale, 'musings');
-    if (!fs.existsSync(localePath)) return;
+    if (!fs.existsSync(localePath)) {
+        console.log(`📁 Creating missing directory: ${localePath}`);
+        fs.mkdirSync(localePath, { recursive: true });
+    }
 
     console.log(`\n🌐 [Locale: ${locale}] Processing...`);
 
@@ -107,14 +126,35 @@ async function syncLocale(locale) {
             
             let content = record.text || '';
             let image = '';
+            let video = '';
+            let videoThumbnail = '';
+            let youtube = '';
             let linkPreview = null;
 
-            if (post.embed && post.embed.$type === 'app.bsky.embed.images#view') {
-                image = post.embed.images[0]?.fullsize || '';
+            // Detect YouTube in text
+            const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const ytMatch = content.match(youtubeRegex);
+            if (ytMatch) {
+                youtube = ytMatch[0];
             }
 
-            if (post.embed && post.embed.$type === 'app.bsky.embed.external#view') {
-                const external = post.embed.external;
+            let embed = post.embed;
+            // Handle Record with Media (e.g. quote post with image/video)
+            if (embed?.$type === 'app.bsky.embed.recordWithMedia#view') {
+                embed = embed.media;
+            }
+
+            if (embed?.$type === 'app.bsky.embed.images#view') {
+                image = embed.images[0]?.fullsize || '';
+            }
+
+            if (embed?.$type === 'app.bsky.embed.video#view') {
+                video = embed.playlist || '';
+                videoThumbnail = embed.thumbnail || '';
+            }
+
+            if (embed?.$type === 'app.bsky.embed.external#view') {
+                const external = embed.external;
                 linkPreview = {
                     url: external.uri,
                     title: external.title,
@@ -125,8 +165,11 @@ async function syncLocale(locale) {
 
             // Construct Markdown
             let mdContent = '---\n';
-            mdContent += `date: "${postDate}"\n`;
+            mdContent += `date: "${formatDate(postDate)}"\n`;
             if (image) mdContent += `image: "${image}"\n`;
+            if (video) mdContent += `video: "${video}"\n`;
+            if (videoThumbnail) mdContent += `videoThumbnail: "${videoThumbnail}"\n`;
+            if (youtube) mdContent += `youtube: "${youtube}"\n`;
             if (linkPreview) {
                 mdContent += `linkPreview:\n`;
                 mdContent += `  url: "${linkPreview.url}"\n`;

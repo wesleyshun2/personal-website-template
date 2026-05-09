@@ -18,9 +18,14 @@
   "portfolio": {
     "title": "精選作品",
     "subtitle": "展示我在設計與開發領域的探索與實踐。",
-    "viewProject": "查看專案",
+    "viewProject": "查看詳情",
     "all": "全部項目",
-    "noResults": "找不到符合此標籤的作品。"
+    "noResults": "找不到符合此標籤的作品。",
+    "next": "下一頁",
+    "previous": "上一頁",
+    "more": "更多標籤",
+    "collapse": "收合標籤",
+    "clearFilters": "清除篩選"
   },
   "blog": {
     "title": "數位筆記",

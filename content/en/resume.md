@@ -1,9 +1,7 @@
 ---
 name: "Arco Wang"
 title: "Senior Front-End Engineer / UI Designer"
-email: "arco.wang@example.com"
-github: "github.com/arcowang"
-linkedin: "linkedin.com/in/arcowang"
+email: "[EMAIL_ADDRESS]"
 ---
 
 ## About Me
