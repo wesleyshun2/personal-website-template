@@ -18,10 +18,15 @@
     "portfolio": {
         "title": "Selected Works",
         "subtitle": "A showcase of my explorations and practices in design and development.",
-        "viewProject": "View Project",
+        "viewProject": "View Details",
         "all": "All",
         "filterBy": "Filter by Tag",
-        "noResults": "No projects found matching this tag."
+        "noResults": "No projects found matching this tag.",
+        "next": "Next",
+        "previous": "Previous",
+        "more": "More Tags",
+        "collapse": "Collapse",
+        "clearFilters": "Clear Filters"
     },
     "blog": {
         "title": "Digital Notes",

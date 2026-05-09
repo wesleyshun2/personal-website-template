@@ -2,9 +2,13 @@
 
 這是一個使用 [Next.js](https://nextjs.org/) 和 [Tailwind CSS](https://tailwindcss.com/) 打造的高質感個人網站模板，內建深色/淺色模式、雙語言支援，並透過 Markdown 來管理網站的動態內容。
 
+如果要引用外部圖片（例如類似 Unsplash 的圖床），您必須在 **`next.config.ts`** 中手動加入信任網域
+
 ## ✨ 核心功能 (Features)
 
 - **優雅的視覺設計**：支援深色/淺色模式切換，並帶有絕美的玻璃擬物 (Glassmorphism) 特效。
+- **進階作品篩選系統**：支持多選（Union）標籤篩選，讓訪客能同時探索不同領域的作品集。
+- **持久化導航體驗**：在作品詳情頁加入持久化子導航欄，並能自動記憶返回時的篩選與分頁狀態。
 - **基於 Markdown 的內容管理**：無須資料庫，只要編輯 `content/` 資料夾內的 `.md` 檔案，即可輕鬆更新履歷、部落格與作品集。
 - **多語系支援 (i18n)**：內建英文 (`en`) 與繁體中文 (`tw`) 雙語系，架構容易擴展。
 - **動態隨想 (Musings) 同步**：內建客製化腳本，能自動同步您的 BlueSky 貼文至網站，當作個人的微網誌。
@@ -13,6 +17,25 @@
 
 ![效果預覽](effect.png)
 
+---
+
+## 📂 專案架構 (Project Architecture)
+
+```text
+├── content/               # Markdown 內容檔案 (依語系分類)
+│   ├── en/                # 英文內容 (about, resume, blog, portfolio, musings)
+│   └── tw/                # 繁體中文內容
+├── public/                # 靜態資源 (圖片、SVG等)
+├── scripts/               # 自動化腳本 (同步微網誌、數據處理等)
+├── src/
+│   ├── app/               # Next.js App Router 頁面路由與邏輯
+│   ├── components/        # React UI 組件
+│   ├── config/            # 網站全域設定 (site.ts)
+│   ├── dictionaries/      # 多語系字典檔 (JSON)
+│   └── lib/               # 工具函式 (MDX 解析、API 抓取等)
+├── next.config.ts         # Next.js 設定 (包含圖床/外部圖片信任清單)
+└── package.json           # 專案依賴與腳本指令
+```
 
 ---
 
@@ -36,23 +59,38 @@
 
 ### 1. 網站基礎設定 (Site Configuration)
 網站的核心設定皆集中於 `src/config/site.ts` 檔案中：
-- **調整玻璃特效**：可在 `hero` 區塊下修改 Tailwind CSS 屬性（包含 `glassBlur`、`glassOpacityLight`、`glassOpacityDark`），細微調整網站的視覺感受。
-- **設定 BlueSky 來源**：若是想同步您的微網誌，請在 `musings.sources` 中替換為您的 BlueSky 個人首頁連結。
+- **調整玻璃特效**：可在 `hero` 區塊下修改 Tailwind CSS 屬性（包含 `glassBlur`、`glassOpacityLight`、`glassOpacityDark`）。
+- **設定 BlueSky 來源**：在 `musings.sources` 中替換為您的 BlueSky 個人首頁連結。
 
-### 2. 內容修改與發布 (Content Management)
-所有的文字與文章內容都存放在 `content/` 資料夾內，並依據語系（如 `en/`、`tw/`）進行分類：
-- **單一頁面介紹**：直接編輯對應語系資料夾中的 `about.md` (關於我) 或 `resume.md` (履歷表)。
-- **發表部落格 (Blog) 與作品集 (Portfolio)**：進入 `blog/` 或 `portfolio/` 目錄，新增 Markdown 檔案即可。檔案開頭需包含 YAML Frontmatter（如標題、日期、描述等），網站將會自動讀取並渲染。
+### 2. 外部圖片與圖床設定 (External Images / Remote Patterns)
+如果您在 Markdown 中引用了非本地的圖片（如 Unsplash、GitHub 或其他圖床），您必須在 **`next.config.ts`** 中手動加入信任網域：
 
-### 3. 同步 BlueSky 隨想 (Syncing Musings)
-此模板幫助您將社交媒體上的簡短想法無縫搬移至個人網站。
-操作流程：
-1. 請先確保已在 `src/config/site.ts` 寫入您的 BlueSky 連結。
-2. 在終端機執行同步指令：
-   ```bash
-   npm run sync-musings
-   ```
-3. 執行後，腳本會自動連線取得最新發文，並將其轉換成 `.md` 檔案，自動放置到 `content/[locale]/musings/` 資料夾中。
+```typescript
+// next.config.ts
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'your-image-host.com' }, // 在此新增您的圖床網域
+    ],
+  },
+};
+```
+
+### 3. 內容修改與發布 (Content Management)
+所有的文字與文章內容都存放在 `content/` 資料夾內：
+- **修改履歷與關於我**：編輯 `about.md` 或 `resume.md`。
+- **作品集 (Portfolio)**：在 `portfolio/` 下新增檔案，請確保 Frontmatter 中的 `tags` 陣列正確填寫，這將影響前端的標籤雲篩選功能。
+
+### 4. 同步與自動化腳本 (Scripts)
+- **同步 BlueSky 隨想**：
+  ```bash
+  npm run sync-musings
+  ```
+- **抓取週報數據** (Python)：
+  ```bash
+  python fetch_weeks.py
+  ```
 
 ---
 
