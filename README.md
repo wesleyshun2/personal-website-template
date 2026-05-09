@@ -62,7 +62,12 @@
 - **調整玻璃特效**：可在 `hero` 區塊下修改 Tailwind CSS 屬性（包含 `glassBlur`、`glassOpacityLight`、`glassOpacityDark`）。
 - **設定 BlueSky 來源**：在 `musings.sources` 中替換為您的 BlueSky 個人首頁連結。
 
-### 2. 外部圖片與圖床設定 (External Images / Remote Patterns)
+### 2. 社群連結設定 (Social Links)
+首頁 Hero 區域的社群按鈕（LinkedIn, Bluesky, X 等）可以在 **`src/components/SocialLinks.tsx`** 中修改：
+- **修改連結**：找到 `socials` 陣列，直接替換對應項目的 `url` 即可。
+- **新增/移除平台**：您可以自由增加或刪除該陣列中的物件，圖示使用的是 `react-icons` 與 `lucide-react`。
+
+### 3. 外部圖片與圖床設定 (External Images / Remote Patterns)
 如果您在 Markdown 中引用了非本地的圖片（如 Unsplash、GitHub 或其他圖床），您必須在 **`next.config.ts`** 中手動加入信任網域：
 
 ```typescript
@@ -77,12 +82,12 @@ const nextConfig: NextConfig = {
 };
 ```
 
-### 3. 內容修改與發布 (Content Management)
+### 4. 內容修改與發布 (Content Management)
 所有的文字與文章內容都存放在 `content/` 資料夾內：
 - **修改履歷與關於我**：編輯 `about.md` 或 `resume.md`。
 - **作品集 (Portfolio)**：在 `portfolio/` 下新增檔案，請確保 Frontmatter 中的 `tags` 陣列正確填寫，這將影響前端的標籤雲篩選功能。
 
-### 4. 同步與自動化腳本 (Scripts)
+### 5. 同步與自動化腳本 (Scripts)
 - **同步 BlueSky 隨想**：
   ```bash
   npm run sync-musings
