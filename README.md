@@ -1,6 +1,8 @@
 # Personal Website Template
 
-這是一個用 Markdown 管理文字內容的優雅風格個人網站模板，內建深色/淺色模式、雙語言支援。
+[Live Demo 演示：https://personal-website-template-sooty.vercel.app/](https://personal-website-template-sooty.vercel.app/)
+
+這是一個用 Markdown 管理文字內容的優雅風格個人網站模板，內建深色/淺色模式、雙語言支援。透過 github 可以輕易地更新網站內容，也可以直接讀取 Bluesky 的貼文。
 
 首頁的按鈕可以在 `src/components/SocialLinks.tsx` 中修改。如果要引用外部圖片（例如類似 Unsplash 的圖床），需要在 `next.config.ts` 中手動加入信任網域。詳情請見下文。
 
