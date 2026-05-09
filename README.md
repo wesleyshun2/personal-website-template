@@ -1,8 +1,8 @@
 # Personal Website Template
 
-這是一個使用 [Next.js](https://nextjs.org/) 和 [Tailwind CSS](https://tailwindcss.com/) 打造的高質感個人網站模板，內建深色/淺色模式、雙語言支援，並透過 Markdown 來管理網站的動態內容。
+這是一個用 Markdown 管理文字內容的優雅風格個人網站模板，內建深色/淺色模式、雙語言支援。
 
-如果要引用外部圖片（例如類似 Unsplash 的圖床），您必須在 **`next.config.ts`** 中手動加入信任網域
+首頁的按鈕可以在 `src/components/SocialLinks.tsx` 中修改。如果要引用外部圖片（例如類似 Unsplash 的圖床），需要在 `next.config.ts` 中手動加入信任網域。詳情請見下文。
 
 ## ✨ 核心功能 (Features)
 

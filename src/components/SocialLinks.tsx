@@ -4,7 +4,7 @@ import { SiBluesky, SiX, SiDiscord, SiLinkedin, SiTelegram } from 'react-icons/s
 export function SocialLinks({ className = "" }: { className?: string }) {
     const socials = [
         { name: 'LinkedIn', icon: SiLinkedin, url: 'https://linkedin.com/' },
-        { name: 'Bluesky', icon: SiBluesky, url: 'https://bsky.app/profile/coddybarks.bsky.social' },
+        { name: 'Bluesky', icon: SiBluesky, url: 'https://bsky.app/' },
         { name: 'X', icon: SiX, url: 'https://x.com/' },
         { name: 'Telegram', icon: SiTelegram, url: 'https://t.me/' },
         { name: 'Discord', icon: SiDiscord, url: 'https://discord.com/' },
