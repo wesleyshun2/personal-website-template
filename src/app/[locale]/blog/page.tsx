@@ -18,8 +18,8 @@ export default async function BlogPage({
     const dict = await getDictionary(typedLocale);
 
     const currentPage = Math.max(1, parseInt(page || '1', 10));
-    const currentCategory = category || dict.blog.all;
-    const postsPerPage = 4;
+    const activeCategories = category ? category.split(',') : [];
+    const postsPerPage = 6;
 
     const allPostsData = getAllContentWithMetadata(typedLocale, 'blog');
 
@@ -32,9 +32,9 @@ export default async function BlogPage({
         slug: post.slug,
     })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const filteredPosts = currentCategory === dict.blog.all
+    const filteredPosts = activeCategories.length === 0
         ? allPosts
-        : allPosts.filter(p => p.category === currentCategory);
+        : allPosts.filter(p => activeCategories.includes(p.category));
 
     const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
     const paginatedPosts = filteredPosts.slice(
@@ -78,7 +78,7 @@ export default async function BlogPage({
                             locale={typedLocale}
                             currentPage={currentPage}
                             totalPages={totalPages}
-                            currentCategory={currentCategory}
+                            activeCategories={activeCategories}
                             allCategories={Array.from(new Set(allPosts.map(p => p.category)))}
                         />
                     </div>
